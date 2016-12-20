@@ -2,7 +2,13 @@
 
 import sys
 
+
 import parse
+
+
+# TODO
+# suporte a string
+
 
 """
 ['INSERT INTO PRODUTO VALUES (NULL, ', 'INT', ',', 'PRODUTO', ', ', 'PALAVRA', ');', '8']
@@ -26,25 +32,15 @@ Elemento
 
 """
 
-def closure():
-    count = 0
-
-    def tmp():
-        nonlocal count
-        count += 1
-        return count
-
-    return tmp
-
 
 def main():
+    # print(sys.argv[1:])
+    # return
     sequencia = parse.parse(sys.argv[1:])
+
     for i in range(sequencia.quantidade):
         tmp = [j.get_valor() for j in sequencia.ordem]
         print("".join(tmp))
-
-
-
 
 if __name__ == '__main__':
     # rodar python3 geradorstr.py "INSERT INTO produto values (" INT ", " "ANY ELEMENTO" ", "  FLOAT ");" 5

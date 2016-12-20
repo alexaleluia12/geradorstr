@@ -1,4 +1,5 @@
 import re
+import random
 
 """
 (a,b,c)
@@ -36,9 +37,15 @@ PALAVRA(n)
 >>> a.group('fim')
 '11'
 """
-mestipos = [
-    re.compile(r'^int(\(\d+:\d+\))?$')
+meustipos = [
+    re.compile(r'^(?P<principal>int)(\{(?P<inicio>\d+):(?P<fim>\d+)\})?$'),
+    re.compile(r'^(?P<principal>float)(\{(?P<inicio>\d+):(?P<fim>\d+)\})?$')
 ]
+
+fn_intervalos = {
+    'int': random.randint,
+    'float': random.uniform
+}
 correspondencia = {'int': int, 'float': float}
 
 
@@ -59,21 +66,21 @@ class Sequencia:
 class Elemento:
     def __init__(self, tipo, valor=None, inicio=0, fim=0):
         self.tipo = tipo
-        if self.tipo is Dinamico:
-            assert valor is not None, "Nao pode ser None o valor de um elemento\
-                dinamico"
-            assert valor is float or valor is int, "Tipos invalidos"
         self.valor = valor
         self.inicio = inicio
         self.fim = fim
 
         if self.tipo is Dinamico:
-            self.get_valor = self._closure()
+            fn = fn_intervalos[valor] if inicio and fim else None
+            self.valor = correspondencia[valor]
+            #  precisa fz a conversao para o tipo correto
+            self.get_valor = self._closure(
+                self.valor(self.inicio), self.valor(self.fim),  fn
+            )
         else:
             self.get_valor = self._normal
 
-
-    def _closure(self):
+    def _closure(self, inicio=0, fim=0, fn=None):
         # falta por a restircao do intervalor, e string (complicaod)
         contador = 0
         incrementador = self.valor(1)
@@ -82,7 +89,14 @@ class Elemento:
             nonlocal contador
             contador += incrementador
             return str(contador)
-        return interno
+
+        def interno_aleatorio():
+            return str(fn(inicio, fim))
+
+        if inicio and fim and fn:
+            return interno_aleatorio
+        else:
+            return interno
 
     def _normal(self):
         return self.valor
@@ -92,9 +106,6 @@ class Elemento:
 
     def __repr__(self):
         return "Elemento({}, {})".format(self.tipo, self.valor)
-
-# TODO
-# inserir o controle de minimo e maximo
 
 
 def parse(lst):
@@ -107,9 +118,16 @@ def parse(lst):
         # i = str(i)
         antigo = i
         tipo_futuro = i.lower()
-        if tipo_futuro in correspondencia:
+        match_re = tipo_aceitavel(tipo_futuro)
+        if match_re:
             # elemento dinamico
-            elemento = Elemento(Dinamico, correspondencia[tipo_futuro])
+            tmpv = match_re.group('inicio')
+            inicio = tmpv if tmpv else 0
+            tmpv = match_re.group('fim')
+            fim = tmpv if tmpv else 0
+            elemento = Elemento(
+                Dinamico, match_re.group('principal'), inicio, fim)
+
         else:
             # elemento statico
             elemento = Elemento(Estatico, antigo)
@@ -117,3 +135,12 @@ def parse(lst):
         lst_sequencia.append(elemento)
 
     return Sequencia(lst_sequencia, quantidade)
+
+
+def tipo_aceitavel(valor):
+    for m in meustipos:
+        tmp = m.match(valor)
+        if tmp:
+            return tmp
+
+    return None

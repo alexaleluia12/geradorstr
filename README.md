@@ -4,25 +4,25 @@ os parametros dinamicos vao aparecer na ordem que foram criados
 saida no stdout
 
 
-geradorstr "INSERT INTO PRODUTO VALUES (" parametros_dinamicos ... -q N
+geradorstr "INSERT INTO PRODUTO VALUES (" parametros ... N
 eg: geradorstr "INSERT INTO PRODUTO VALUES (NULL, " INT "," PRODUTO ", " PALAVRA ");" 8
 
 N quantidade de linhas que serao geras
 caso nao for especificado o inicio e fim serao sequenciais
 
 
-== parametros dinamicos ==
-(a,b,c) == escolha a a
+== parametros ==
+{a,b,c} == escolha a a
 
-INT
-INT(inicio:fim)
+INT                    # sequencial, comeca de zero
+INT{inicio:fim}        # randomico entre inicio e fim
 
-FLOAT
-FLOAT(inicio:fim)
+FLOAT                  # sequencial, comeca de zero
+FLOAT{inicio:fim}      # randomico entre inicio e fim
 
-NOME
+NOME                   # nome de pessoa aleatorio
 
-PRODUTO
+PRODUTO                # nome de produto aleatorio
 
-PALAVRA
-PALAVRA(n)
+PALAVRA                # palavra aleatoria
+PALAVRA{n}             # n palavras aletorias sepadas por espaco
