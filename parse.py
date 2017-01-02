@@ -40,13 +40,15 @@ PALAVRA(n)
 meustipos = [
     re.compile(r'^(?P<principal>int)(\{(?P<inicio>\d+):(?P<fim>\d+)\})?$'),
     re.compile(r'^(?P<principal>float)(\{(?P<inicio>\d+):(?P<fim>\d+)\})?$'),
-    re.compile(r'^(?P<principal>nome)$')
+    re.compile(r'^(?P<principal>nome)$'),
+    re.compile(r'^(?P<principal>produto)$')
 ]
 
 lst_funcoes = {
     'int': random.randint,
     'float': random.uniform,
-    'nome': random.choice
+    'nome': random.choice,
+    'produto': random.choice
 }
 correspondencia = {'int': int, 'float': float, 'nome': str}
 nomes = ['Alex', 'Junior', 'Jose', 'Carlos', 'Carolina', 'Mariana', 'Fernanda',
@@ -54,8 +56,12 @@ nomes = ['Alex', 'Junior', 'Jose', 'Carlos', 'Carolina', 'Mariana', 'Fernanda',
          'Rafael', 'Giovani', 'Bruna',  'Bruno', 'Vitoria', 'Jenifer',
          'Maria', 'Leticia', 'Patricia', 'Paloma', 'Ronaldo', 'Gilberto',
          'Lunciano', 'Ana', 'Aline', 'Jessica']
-conjunto_string = {'nome': nomes}
-tipos_string = ['nome']
+produtos = ['copo', 'carteira', 'mesa', 'lapis', 'janela', 'monitor', 'tinta',
+            'livro', 'caneta', 'cariola', 'tigela', 'controle', 'tetergente',
+            'pneu', 'banco', 'chave', 'guarda roupa', 'lampada', 'alicate',
+            'pia', 'tenis', 'sandalia', 'blusa', 'camiseta', 'celular']
+conjunto_string = {'nome': nomes, 'produto': produtos}
+tipos_string = ['nome', 'produto']
 
 
 class Dinamico:
