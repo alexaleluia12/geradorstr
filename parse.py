@@ -20,9 +20,9 @@ PALAVRA(n)
 """
 
 # outros tipos meus, (nome, produto, palavra)
-#re.match(r'int(\\(\d+:\d+\\))|^int$', 'intfoijfe')
+# re.match(r'int(\\(\d+:\d+\\))|^int$', 'intfoijfe')
 # espressao regular com nome de grupo
-#r'^int(\((?P<inicio>\d+):(?P<fim>\d+)\))?$'
+# r'^int(\((?P<inicio>\d+):(?P<fim>\d+)\))?$'
 """
 >>> k = re.compile(r'^int(\((?P<inicio>\d+):(?P<fim>\d+)\))?$')
 >>> k.pattern
@@ -39,14 +39,23 @@ PALAVRA(n)
 """
 meustipos = [
     re.compile(r'^(?P<principal>int)(\{(?P<inicio>\d+):(?P<fim>\d+)\})?$'),
-    re.compile(r'^(?P<principal>float)(\{(?P<inicio>\d+):(?P<fim>\d+)\})?$')
+    re.compile(r'^(?P<principal>float)(\{(?P<inicio>\d+):(?P<fim>\d+)\})?$'),
+    re.compile(r'^(?P<principal>nome)$')
 ]
 
-fn_intervalos = {
+lst_funcoes = {
     'int': random.randint,
-    'float': random.uniform
+    'float': random.uniform,
+    'nome': random.choice
 }
-correspondencia = {'int': int, 'float': float}
+correspondencia = {'int': int, 'float': float, 'nome': str}
+nomes = ['Alex', 'Junior', 'Jose', 'Carlos', 'Carolina', 'Mariana', 'Fernanda',
+         'Jaqueline', 'Andre', 'Lucas', 'Pedro', 'Juliano', 'Monteiro',
+         'Rafael', 'Giovani', 'Bruna',  'Bruno', 'Vitoria', 'Jenifer',
+         'Maria', 'Leticia', 'Patricia', 'Paloma', 'Ronaldo', 'Gilberto',
+         'Lunciano', 'Ana', 'Aline', 'Jessica']
+conjunto_string = {'nome': nomes}
+tipos_string = ['nome']
 
 
 class Dinamico:
@@ -71,32 +80,50 @@ class Elemento:
         self.fim = fim
 
         if self.tipo is Dinamico:
-            fn = fn_intervalos[valor] if inicio and fim else None
-            self.valor = correspondencia[valor]
-            #  precisa fz a conversao para o tipo correto
-            self.get_valor = self._closure(
-                self.valor(self.inicio), self.valor(self.fim),  fn
-            )
+            fn = lst_funcoes[valor]
+
+            if self.valor not in tipos_string:
+                # fn None vai saber que o elemento eh sequencial e nao existe
+                # funcao especial
+                fn = lst_funcoes[valor] if inicio and fim else None
+                self.valor = correspondencia[valor]
+                #  precisa fz a conversao para o tipo correto
+                self.get_valor = self._closure(
+                    self.valor(self.inicio), self.valor(self.fim),  fn
+                )
+            else:  # variates do tipo string
+                self.valor = int  # para nao dar conflito em sequencial()
+                self.get_valor = self._closure(
+                    fn=fn, tipo=valor
+                )
+
         else:
             self.get_valor = self._normal
 
-    def _closure(self, inicio=0, fim=0, fn=None):
+    def _closure(self, inicio=0, fim=0, fn=None, tipo=None):
         # falta por a restircao do intervalor, e string (complicaod)
         contador = 0
         incrementador = self.valor(1)
 
-        def interno():
+        def sequencial():
             nonlocal contador
             contador += incrementador
             return str(contador)
 
-        def interno_aleatorio():
+        def intervalo_aleatorio():
             return str(fn(inicio, fim))
 
-        if inicio and fim and fn:
-            return interno_aleatorio
-        else:
+        def para_string(tipo):
+            def interno():
+                return fn(conjunto_string[tipo])
             return interno
+
+        if inicio and fim and fn:
+            return intervalo_aleatorio
+        elif fn:
+            return para_string(tipo)
+        else:
+            return sequencial
 
     def _normal(self):
         return self.valor
@@ -121,10 +148,15 @@ def parse(lst):
         match_re = tipo_aceitavel(tipo_futuro)
         if match_re:
             # elemento dinamico
-            tmpv = match_re.group('inicio')
-            inicio = tmpv if tmpv else 0
-            tmpv = match_re.group('fim')
-            fim = tmpv if tmpv else 0
+            try:
+                tmpv = match_re.group('inicio')
+                inicio = tmpv if tmpv else 0
+                tmpv = match_re.group('fim')
+                fim = tmpv if tmpv else 0
+
+            except IndexError as e:  # buscou um grupo que nao existe
+                inicio = fim = 0
+
             elemento = Elemento(
                 Dinamico, match_re.group('principal'), inicio, fim)
 
@@ -143,4 +175,4 @@ def tipo_aceitavel(valor):
         if tmp:
             return tmp
 
-    return None
+    return False  # nenhum tipo dinamico

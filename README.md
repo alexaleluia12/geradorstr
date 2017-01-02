@@ -12,7 +12,7 @@ caso nao for especificado o inicio e fim serao sequenciais
 
 
 == parametros ==
-{a,b,c} == escolha a a
+{a,b,c} == escolha a b c
 
 INT                    # sequencial, comeca de zero
 INT{inicio:fim}        # randomico entre inicio e fim
