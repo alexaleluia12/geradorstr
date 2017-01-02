@@ -7,7 +7,6 @@ import parse
 
 
 # TODO
-# suporte a string
 
 
 """

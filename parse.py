@@ -41,14 +41,16 @@ meustipos = [
     re.compile(r'^(?P<principal>int)(\{(?P<inicio>\d+):(?P<fim>\d+)\})?$'),
     re.compile(r'^(?P<principal>float)(\{(?P<inicio>\d+):(?P<fim>\d+)\})?$'),
     re.compile(r'^(?P<principal>nome)$'),
-    re.compile(r'^(?P<principal>produto)$')
+    re.compile(r'^(?P<principal>produto)$'),
+    re.compile(r'^(?P<principal>palavra)$')
 ]
 
 lst_funcoes = {
     'int': random.randint,
     'float': random.uniform,
     'nome': random.choice,
-    'produto': random.choice
+    'produto': random.choice,
+    'palavra': random.choice
 }
 correspondencia = {'int': int, 'float': float, 'nome': str}
 nomes = ['Alex', 'Junior', 'Jose', 'Carlos', 'Carolina', 'Mariana', 'Fernanda',
@@ -60,8 +62,16 @@ produtos = ['copo', 'carteira', 'mesa', 'lapis', 'janela', 'monitor', 'tinta',
             'livro', 'caneta', 'cariola', 'tigela', 'controle', 'tetergente',
             'pneu', 'banco', 'chave', 'guarda roupa', 'lampada', 'alicate',
             'pia', 'tenis', 'sandalia', 'blusa', 'camiseta', 'celular']
-conjunto_string = {'nome': nomes, 'produto': produtos}
-tipos_string = ['nome', 'produto']
+palavras = ['Lorem', 'Ipsum', 'texto', ' modelo', 'empresas', 'vindo', 'usado',
+            'estas', 'desde', 'ano', 'quando', 'misturou', 'caracteres',
+            'criar', 'livro', 'sobreviveu', 'decadas', 'altou tipografia',
+            'mater', 'essencialmente', 'inalterada', 'popularizada', 'folha',
+            'continham', 'passagens', 'mais', 'menos', 'soma', 'subtracao',
+            'valores', 'recentemente', 'programas', 'incluem']
+
+
+conjunto_string = {'nome': nomes, 'produto': produtos, 'palavra': palavras}
+tipos_string = ['nome', 'produto', 'palavra']
 
 
 class Dinamico:
