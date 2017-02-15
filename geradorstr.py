@@ -7,7 +7,11 @@ import parse
 
 
 # TODO
-
+# paravra com n elementos
+# escolha {a,b,c}
+# read me legal com varios exemplos
+# instalacao com pip
+# postar projeto no pip para outras pessoas usarem
 
 """
 ['INSERT INTO PRODUTO VALUES (NULL, ', 'INT', ',', 'PRODUTO', ', ', 'PALAVRA', ');', '8']
