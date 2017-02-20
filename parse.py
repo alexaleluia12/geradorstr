@@ -1,6 +1,8 @@
 import re
 import random
 
+
+import funcoesauxiliares
 """
 (a,b,c)
 
@@ -42,7 +44,7 @@ meustipos = [
     re.compile(r'^(?P<principal>float)(\{(?P<inicio>\d+):(?P<fim>\d+)\})?$'),
     re.compile(r'^(?P<principal>nome)$'),
     re.compile(r'^(?P<principal>produto)$'),
-    re.compile(r'^(?P<principal>palavra)$')
+    re.compile(r'^(?P<principal>palavra)(\{(?P<qnt>\d+)\})?$')
 ]
 
 lst_funcoes = {
@@ -50,7 +52,7 @@ lst_funcoes = {
     'float': random.uniform,
     'nome': random.choice,
     'produto': random.choice,
-    'palavra': random.choice
+    'palavra': funcoesauxiliares.nrandom
 }
 correspondencia = {'int': int, 'float': float, 'nome': str}
 nomes = ['Alex', 'Junior', 'Jose', 'Carlos', 'Carolina', 'Mariana', 'Fernanda',
@@ -62,7 +64,7 @@ produtos = ['copo', 'carteira', 'mesa', 'lapis', 'janela', 'monitor', 'tinta',
             'livro', 'caneta', 'cariola', 'tigela', 'controle', 'tetergente',
             'pneu', 'banco', 'chave', 'guarda roupa', 'lampada', 'alicate',
             'pia', 'tenis', 'sandalia', 'blusa', 'camiseta', 'celular']
-palavras = ['Lorem', 'Ipsum', 'texto', ' modelo', 'empresas', 'vindo', 'usado',
+palavras = ['Lorem', 'Ipsum', 'texto', 'modelo', 'empresas', 'vindo', 'usado',
             'estas', 'desde', 'ano', 'quando', 'misturou', 'caracteres',
             'criar', 'livro', 'sobreviveu', 'decadas', 'altou tipografia',
             'mater', 'essencialmente', 'inalterada', 'popularizada', 'folha',
@@ -89,7 +91,7 @@ class Sequencia:
 
 
 class Elemento:
-    def __init__(self, tipo, valor=None, inicio=0, fim=0):
+    def __init__(self, tipo, valor=None, inicio=0, fim=0, nstring=1):
         self.tipo = tipo
         self.valor = valor
         self.inicio = inicio
@@ -110,13 +112,13 @@ class Elemento:
             else:  # variates do tipo string
                 self.valor = int  # para nao dar conflito em sequencial()
                 self.get_valor = self._closure(
-                    fn=fn, tipo=valor
+                    fn=fn, tipo=valor, nstring=nstring
                 )
 
         else:
             self.get_valor = self._normal
 
-    def _closure(self, inicio=0, fim=0, fn=None, tipo=None):
+    def _closure(self, inicio=0, fim=0, fn=None, tipo=None, nstring=1):
         # falta por a restircao do intervalor, e string (complicaod)
         contador = 0
         incrementador = self.valor(1)
@@ -129,15 +131,15 @@ class Elemento:
         def intervalo_aleatorio():
             return str(fn(inicio, fim))
 
-        def para_string(tipo):
+        def para_string(tipo, quantidade):
             def interno():
-                return fn(conjunto_string[tipo])
+                return fn(conjunto_string[tipo], qnt=quantidade)
             return interno
 
         if inicio and fim and fn:
             return intervalo_aleatorio
         elif fn:
-            return para_string(tipo)
+            return para_string(tipo, nstring)
         else:
             return sequencial
 
@@ -164,17 +166,18 @@ def parse(lst):
         match_re = tipo_aceitavel(tipo_futuro)
         if match_re:
             # elemento dinamico
-            try:
-                tmpv = match_re.group('inicio')
-                inicio = tmpv if tmpv else 0
-                tmpv = match_re.group('fim')
-                fim = tmpv if tmpv else 0
+            todos_elementos = match_re.groupdict()
+            tmpv = todos_elementos.get('inicio', None)
+            inicio = tmpv if tmpv else 0
 
-            except IndexError as e:  # buscou um grupo que nao existe
-                inicio = fim = 0
+            tmpv = todos_elementos.get('fim', None)
+            fim = tmpv if tmpv else 0
+
+            tmpv = todos_elementos.get('qnt', None)
+            strqnt = int(tmpv) if tmpv else 1
 
             elemento = Elemento(
-                Dinamico, match_re.group('principal'), inicio, fim)
+                Dinamico, match_re.group('principal'), inicio, fim, strqnt)
 
         else:
             # elemento statico

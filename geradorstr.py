@@ -7,7 +7,7 @@ import parse
 
 
 # TODO
-# paravra com n elementos
+# certificar que o ultimo argumento passado eh um numero
 # escolha {a,b,c}
 # read me legal com varios exemplos
 # instalacao com pip
@@ -28,7 +28,7 @@ class Sequencia:
 
 Elemento
     get_valor (
-        vai ternoar o valor que se espera do elemento, ele fica resposavel por
+        vai retornar o valor que se espera do elemento, ele fica resposavel por
         saber se eh fixo ou dinamico e a ordem que deve ser gerada
         pra numero sequencia posso usar closure
     )
@@ -47,4 +47,6 @@ def main():
 
 if __name__ == '__main__':
     # rodar python3 geradorstr.py "INSERT INTO produto values (" INT ", " "ANY ELEMENTO" ", "  FLOAT ");" 5
+    # esta funcionado nada :( estralho
+    # python3 geradorstr.py "face myself " INT " :) " PALAVRA{3} ' ' INT{5:10} 5
     main()
