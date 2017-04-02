@@ -7,7 +7,6 @@ import parse
 
 
 # TODO
-# certificar que o ultimo argumento passado eh um numero
 # escolha {a,b,c}
 # read me legal com varios exemplos
 # instalacao com pip

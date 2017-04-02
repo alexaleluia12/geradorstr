@@ -157,6 +157,11 @@ def parse(lst):
     # ['INSERT INTO PRODUTO VALUES (NULL, ', 'INT', ',', 'PRODUTO', ', ', 'PALAVRA', ');', '8']
     # lst = list()
     lst_sequencia = list()
+    try:
+        quantidade = int(lst[-1])
+    except ValueError as e:
+        print("(ERROR) Last argument should be a number")
+        exit(0)
     quantidade = int(lst[-1])
     lst.pop()
     for i in lst:
