@@ -7,7 +7,6 @@ import parse
 
 
 # TODO
-# read me legal com varios exemplos
 # instalacao com pip
 # postar projeto no pip para outras pessoas usarem
 

@@ -5,19 +5,18 @@ saida no stdout
 
 
 geradorstr "INSERT INTO PRODUTO VALUES (" parametros ... N
-eg: geradorstr "INSERT INTO PRODUTO VALUES (NULL, " INT "," PRODUTO ", " PALAVRA ");" 8
+ex: geradorstr "INSERT INTO PRODUTO VALUES (NULL, " INT "," PRODUTO ", " PALAVRA ");" 8
 
-N quantidade de linhas que serao geras
-caso nao for especificado o inicio e fim serao sequenciais
+N quantidade de linhas que serão geradas
+caso nao for especificado o inicio e fim serão sequênciais
 
 
 == parametros ==
-{a,b,c} == escolha a b c
 
-INT                    # sequencial, comeca de zero
+INT                    # sequencial, comeca de um
 INT{inicio:fim}        # randomico entre inicio e fim
 
-FLOAT                  # sequencial, comeca de zero
+FLOAT                  # sequencial, comeca de um
 FLOAT{inicio:fim}      # randomico entre inicio e fim
 
 NOME                   # nome de pessoa aleatorio
@@ -26,3 +25,8 @@ PRODUTO                # nome de produto aleatorio
 
 PALAVRA                # palavra aleatoria
 PALAVRA{n}             # n palavras aletorias sepadas por espaco
+
+== exemplos ==
+$ python3 geradorstr.py "tenho " INT " " PALAVRA ' que valem ' INT{5:10} 5
+$ python3 geradorstr.py "INSER INT PRODUTOS VALUES (NULL, " PRODUTO ", " PALAVRA{2} ", " FLOAT{100:200} " )" 3
+$ python3 geradorstr.py altura ' + ' INT 10

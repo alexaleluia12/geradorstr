@@ -50,8 +50,8 @@ meustipos = [
 lst_funcoes = {
     'int': random.randint,
     'float': random.uniform,
-    'nome': random.choice,
-    'produto': random.choice,
+    'nome': funcoesauxiliares.nrandom,
+    'produto': funcoesauxiliares.nrandom,
     'palavra': funcoesauxiliares.nrandom
 }
 correspondencia = {'int': int, 'float': float, 'nome': str}
