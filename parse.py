@@ -4,7 +4,7 @@ import random
 
 import funcoesauxiliares
 """
-(a,b,c)
+(a,b,c) -- deixar esse bem por ultimo
 
 INT
 INT(inicio:fim)
@@ -160,7 +160,7 @@ def parse(lst):
     try:
         quantidade = int(lst[-1])
     except ValueError as e:
-        print("(ERROR) Last argument should be a number")
+        print("(ERRO) Ultimo argumento deve ser numerico")
         exit(0)
     quantidade = int(lst[-1])
     lst.pop()
