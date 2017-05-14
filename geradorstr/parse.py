@@ -1,25 +1,12 @@
 import re
 import random
+import sys
 
 
-#import funcoesauxiliares
 from . import funcoesauxiliares
+from . import metainfo
 """
-(a,b,c) -- deixar esse bem por ultimo
-
-INT
-INT(inicio:fim)
-int(n:m)
-
-FLOAT
-FLOAT(inicio:fim)
-
-NOME
-
-PRODUTO
-
-PALAVRA
-PALAVRA(n)
+(a,b,c) -- deixar esse bem por ultimo, funcionalidade futura
 """
 
 # outros tipos meus, (nome, produto, palavra)
@@ -67,7 +54,7 @@ produtos = ['copo', 'carteira', 'mesa', 'lapis', 'janela', 'monitor', 'tinta',
             'pia', 'tenis', 'sandalia', 'blusa', 'camiseta', 'celular']
 palavras = ['Lorem', 'Ipsum', 'texto', 'modelo', 'empresas', 'vindo', 'usado',
             'estas', 'desde', 'ano', 'quando', 'misturou', 'caracteres',
-            'criar', 'livro', 'sobreviveu', 'decadas', 'altou tipografia',
+            'criar', 'livro', 'sobreviveu', 'decadas', 'tipografia',
             'mater', 'essencialmente', 'inalterada', 'popularizada', 'folha',
             'continham', 'passagens', 'mais', 'menos', 'soma', 'subtracao',
             'valores', 'recentemente', 'programas', 'incluem']
@@ -157,11 +144,19 @@ class Elemento:
 def parse(lst):
     # ['INSERT INTO PRODUTO VALUES (NULL, ', 'INT', ',', 'PRODUTO', ', ', 'PALAVRA', ');', '8']
     # lst = list()
+    primeiro = lst[0]
+    if primeiro == "-h" or primeiro == "--help":
+        print(metainfo.help)
+        exit(0)
+    elif primeiro == "-v" or primeiro == "--version":
+        print(metainfo.version)
+        exit(0)
+
     lst_sequencia = list()
     try:
         quantidade = int(lst[-1])
     except ValueError as e:
-        print("(ERRO) Ultimo argumento deve ser numerico")
+        print("(ERRO) Ultimo argumento deve ser numerico", file=sys.stderr)
         exit(0)
     quantidade = int(lst[-1])
     lst.pop()

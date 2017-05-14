@@ -1,4 +1,6 @@
 
+import re
+import os
 import random
 
 
@@ -16,3 +18,19 @@ def nrandom(lst, qnt=1):
     # para nao ficar espaco na ultima palavra
     saida += random.choice(lst)
     return saida
+
+
+def get_version():
+    version = re.search(
+        '^__version__\s*=\s*"(.*)"',
+        open('geradorstr'+os.path.sep+'geradorstr.py').read(),
+        re.M
+        ).group(1)
+    return version
+
+
+def get_readme():
+    with open('README.rst', 'rb') as f:
+        conteudo = f.read().decode('utf-8')
+
+    return conteudo

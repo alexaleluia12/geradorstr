@@ -1,4 +1,4 @@
-String inteligente: feito para gerar uma sequência de linhas com partes fixas
+help="""String inteligente: feito para gerar uma sequência de linhas com partes fixas
 e outras dinâmicas.
 Ex: insert sql.
 
@@ -38,3 +38,6 @@ $ geradorstr altura ' + ' INT 10
 Como instalar:
 
 $ pip install geradorstr
+"""
+
+version="0.1.0"
