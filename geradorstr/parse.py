@@ -2,7 +2,8 @@ import re
 import random
 
 
-import funcoesauxiliares
+#import funcoesauxiliares
+from . import funcoesauxiliares
 """
 (a,b,c) -- deixar esse bem por ultimo
 

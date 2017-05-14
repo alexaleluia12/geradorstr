@@ -1,13 +1,20 @@
-#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"Command line application to generate start strings"
+
+__version__ = "0.1.0"
 
 import sys
-
-
-import parse
-
+from . import parse
 
 # TODO
-# instalacao com pip
+# instalacao com pip (local primeiro)
+# deve ter as opcoes: -v, -h
+# https://gehrcke.de/2014/02/distributing-a-python-command-line-application/
+#  https://packaging.python.org/
+#  https://docs.djangoproject.com/en/1.10/intro/reusable-apps/
+#  http://python-packaging.readthedocs.io/en/latest/command-line-scripts.html
+#  https://packaging.python.org/distributing/
+# https://packaging.python.org/distributing/#uploading-your-project-to-pypi
 # postar projeto no pip para outras pessoas usarem
 
 """
