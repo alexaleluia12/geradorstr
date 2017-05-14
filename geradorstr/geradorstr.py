@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"Command line application to generate start strings"
+"Command line application to generate smart strings"
 
 __version__ = "0.1.0"
 
@@ -11,6 +11,7 @@ from . import parse
 # TODO
 # fz (a,b,c)
 # adicionar testes automatizados
+#
 
 """
 ['INSERT INTO PRODUTO VALUES (NULL, ', 'INT', ',', 'PRODUTO', ', ', 'PALAVRA', ');', '8']
